@@ -138,6 +138,22 @@ def record_disposition(
         },
     )
     return {
+        "summary": (
+            f"DISPOSITION RECORDED (pending human review) — {alert_id} → {disposition}\n"
+            f"Scorecard: {scorecard['score']}/100 ({scorecard['band']}), recommended "
+            f"{recommended}"
+            + (
+                f"\nDEPARTED from the scorecard. Reason given: "
+                f"{departure_from_scorecard_reason}"
+                if departs else " — disposition agrees with the scorecard."
+            )
+            + f"\nEvidence cited: {len(key_evidence_txn_ids)} transaction(s). "
+            f"Typologies considered: {', '.join(typologies_considered)}.\n"
+            f"Case file: {path}\n"
+            f"Audit ledger entry: {receipt['entry_hash'][:16]}…\n"
+            "This is a RECOMMENDATION ONLY. No alert has been closed and no report "
+            "has been filed — a qualified human does that in the bank's own system."
+        ),
         "recorded": True,
         "case_file": str(path),
         "disposition": disposition,

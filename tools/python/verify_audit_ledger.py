@@ -27,6 +27,14 @@ def verify_audit_ledger(alert_id: str | None = None) -> dict:
     :returns: The verification report, and the case file if requested.
     """
     report = casefile.verify_ledger()
+    report["summary"] = (
+        ("AUDIT LEDGER INTACT" if report["verified"] else "AUDIT LEDGER INTEGRITY FAILURE")
+        + f" — {report.get('entries', 0)} entry(ies) verified. {report.get('note', '')}"
+        + (
+            f" First broken link at index {report['broken_at_index']}."
+            if not report["verified"] else ""
+        )
+    )
     if alert_id:
         report["case_file"] = casefile.read_case(alert_id)
         report["case_file_found"] = report["case_file"] is not None

@@ -477,6 +477,78 @@ class TippingOffControl(unittest.TestCase):
         self.assertIn("5318(g)(2)", result["reason"])
 
 
+class ReadableOutput(unittest.TestCase):
+    """Every tool must lead with a plain-English headline.
+
+    The transcript is the deliverable a compliance officer actually reads.
+    A tool that returns only nested JSON forces the agent to paraphrase it,
+    which is exactly where invented figures creep in.
+    """
+
+    READ_TOOLS = {
+        "get_alert": {"alert_id": "ALT-2026-0117"},
+        "list_open_alerts": {},
+        "get_customer_profile": {"customer_id": "CUS-1044"},
+        "get_transactions": {"customer_id": "CUS-1044", "lookback_days": 90},
+        "run_typology_checks": {"customer_id": "CUS-1044", "lookback_days": 90},
+        "score_alert_risk": {"alert_id": "ALT-2026-0117"},
+        "screen_entity": {"name": "HELIOSPAY DIGITAL ASSETS LTD", "country": "SC"},
+        "search_adverse_media": {"name": "Goldcoast Ventures Ltd"},
+        "get_prior_cases": {"customer_id": "CUS-1007"},
+        "verify_audit_ledger": {},
+    }
+
+    def test_every_read_tool_returns_a_summary(self):
+        for name, kwargs in self.READ_TOOLS.items():
+            with self.subTest(tool=name):
+                result = load_tool(name)(**kwargs)
+                self.assertIn("summary", result, f"{name} has no summary field")
+                self.assertIsInstance(result["summary"], str)
+                self.assertGreater(len(result["summary"]), 40, f"{name} summary too thin")
+
+    def test_summaries_avoid_raw_identifiers_as_prose(self):
+        # A summary is for a human. Bare snake_case tool names reading as
+        # English is the smell that it was written for a parser.
+        for name, kwargs in self.READ_TOOLS.items():
+            with self.subTest(tool=name):
+                summary = load_tool(name)(**kwargs)["summary"]
+                self.assertNotIn("sys_read_inbox", summary)
+                self.assertNotIn("sys_session_send", summary)
+
+    def test_scorecard_summary_shows_the_full_working(self):
+        summary = load_tool("score_alert_risk")(alert_id="ALT-2026-0117")["summary"]
+        self.assertIn("RISK SCORE", summary)
+        self.assertIn("recommends", summary)
+        # Every contributing factor is itemised, so the total can be checked by hand.
+        for factor in scoring.score_alert("ALT-2026-0117")["factors"]:
+            self.assertIn(factor["factor"], summary)
+
+    def test_typology_summary_states_what_was_ruled_out(self):
+        summary = load_tool("run_typology_checks")(
+            customer_id="CUS-1002", lookback_days=90
+        )["summary"]
+        self.assertIn("Ruled out", summary)
+
+    def test_screening_summary_flags_the_sanctions_clock(self):
+        summary = load_tool("screen_entity")(
+            name="HELIOSPAY DIGITAL ASSETS LTD", country="SC"
+        )["summary"]
+        self.assertIn("SCREENING HIT", summary)
+        self.assertIn("sanctions team", summary)
+
+    def test_media_summary_carries_the_untrusted_warning(self):
+        summary = load_tool("search_adverse_media")(name="Goldcoast Ventures Ltd")["summary"]
+        self.assertIn("UNTRUSTED", summary)
+        self.assertIn("never the sole basis", summary)
+
+    def test_agents_are_instructed_to_narrate_for_a_human(self):
+        supervisor = (ROOT / "config.yaml").read_text()
+        self.assertIn("Narrate for the person watching", supervisor)
+        for agent in ("financial_investigator", "screening_analyst", "qc_reviewer"):
+            text = (ROOT / "agents" / agent / "config.yaml").read_text()
+            self.assertIn("Write for a human reader", text, agent)
+
+
 class BundleWiring(unittest.TestCase):
     """The Omnigent spec must load with the governance actually attached."""
 

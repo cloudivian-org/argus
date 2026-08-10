@@ -36,7 +36,8 @@ def get_transactions(
     :param account_id: Restrict to a single account.
     :param channel: Restrict to one channel, e.g. ``wire``,
         ``branch_cash``, ``p2p``, ``atm``, ``crypto_exchange``.
-    :returns: Matching rows plus totals by direction, channel, and country.
+    :returns: A plain-English ``summary``, an ``aggregates`` block with
+        totals by direction, channel, and country, and the matching rows.
     """
     return api.transactions_query(
         customer_id,

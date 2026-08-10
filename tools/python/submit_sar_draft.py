@@ -124,6 +124,11 @@ def submit_sar_draft(
 
     if deficiencies:
         return {
+            "summary": (
+                f"SAR DRAFT REJECTED for {alert_id} — {len(deficiencies)} deficiency(ies) "
+                f"must be fixed before review:\n"
+                + "\n".join(f"  {i}. {d}" for i, d in enumerate(deficiencies, 1))
+            ),
             "accepted": False,
             "deficiencies": deficiencies,
             "note": "Draft rejected before review. Fix the deficiencies and resubmit.",
@@ -166,6 +171,20 @@ def submit_sar_draft(
         },
     )
     return {
+        "summary": (
+            f"SAR DRAFT ACCEPTED and parked for human review — {alert_id}\n"
+            f"Type: {suspicious_activity_type}\n"
+            f"Subject(s): {', '.join(subjects)}\n"
+            f"Activity period: {activity_start_date} to {activity_end_date}\n"
+            f"Amount reported: ${total_suspicious_amount_usd:,.2f} "
+            f"(cited transactions total ${cited_total:,.2f})\n"
+            f"Supporting transactions: {len(supporting_txn_ids)} · "
+            f"Narrative: {len(narrative.strip()):,} characters · "
+            f"Elements covered: {', '.join(elements_covered)}\n"
+            f"Audit ledger entry: {receipt['entry_hash'][:16]}…\n"
+            "NOT FILED. This tool cannot file a SAR — the filing decision and the "
+            "submission to the financial intelligence unit remain with a qualified human."
+        ),
         "accepted": True,
         "status": "pending_human_review",
         "filed": False,

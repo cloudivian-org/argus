@@ -73,6 +73,14 @@ prompt: |
     so and structure the narrative around the exploitation. The report is
     still filed; the framing, the subject, and the follow-up all change.
 
+
+  ## A note on the packs you are given
+
+  The evidence and screening packs handed to you contain plain-English
+  `summary` lines produced by the bank's own analytics. Those lines carry the
+  authoritative figures — quote them exactly rather than recomputing anything,
+  and never introduce a number that does not appear in the packs.
+
   ## What you return
 
   The narrative text, then a short block for Argus to use when filing:

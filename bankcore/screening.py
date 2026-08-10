@@ -93,7 +93,29 @@ def screen_name(name: str, country: str | None = None) -> dict:
 
     candidates.sort(key=lambda c: c["adjusted_score"], reverse=True)
     strong = [c for c in candidates if c["classification"] == "strong_match"]
+    verdict = "hit" if strong else ("possible_hit" if candidates else "clear")
+    detail = "\n".join(
+        f"  {c['classification'].upper()} {c['adjusted_score']:.2f} — "
+        f"\"{name}\" vs \"{c['matched_against']}\" on {c['list_name']} "
+        f"[{c['list_id']}, programs: {', '.join(c['programs']) or 'n/a'}, "
+        f"listed {c['listed_date']}, country {c['country']}"
+        + (", country corroborated" if c["country_corroborated"] else "")
+        + f"]\n      {c['remarks']}"
+        for c in candidates
+    )
     return {
+        "summary": (
+            f"SCREENING {verdict.upper().replace('_', ' ')} for \"{name}\""
+            + (f" ({country})" if country else "")
+            + f" — {len(strong)} strong, {len(candidates) - len(strong)} possible match(es)."
+            + (f"\n{detail}" if detail else " No candidates above the review threshold.")
+            + (
+                "\nA strong sanctions match is a potential blocking/rejection "
+                "obligation with its own clock — refer to the sanctions team "
+                "separately from the AML disposition."
+                if strong else ""
+            )
+        ),
         "screened_name": name,
         "screened_country": country,
         "verdict": "hit" if strong else ("possible_hit" if candidates else "clear"),
@@ -141,7 +163,24 @@ def search_adverse_media(name: str) -> dict:
         )
     hits.sort(key=lambda h: (h["name_match_score"], h["published"]), reverse=True)
     adverse = [h for h in hits if h["risk_tags"]]
+    verdict = "adverse_findings" if adverse else ("neutral_coverage" if hits else "no_coverage")
+    detail = "\n".join(
+        f"  [{h['published']}] {h['source']} (reliability: {h['source_reliability']}, "
+        f"name match {h['name_match_score']:.2f})\n"
+        f"      \"{h['headline']}\"\n"
+        f"      {h['summary']}\n"
+        f"      risk tags: {', '.join(h['risk_tags']) or 'none — neutral coverage'}"
+        for h in hits
+    )
     return {
+        "summary": (
+            f"ADVERSE MEDIA {verdict.upper().replace('_', ' ')} for \"{name}\" — "
+            f"{len(hits)} article(s), {len(adverse)} adverse."
+            + (f"\n{detail}" if detail else "")
+            + "\nUNTRUSTED third-party content: a lead, never the sole basis for an "
+            "escalation, and never quoted verbatim into a filing. Absence of coverage "
+            "is not exoneration; coverage of a similarly named party is not identification."
+        ),
         "searched_name": name,
         "verdict": "adverse_findings" if adverse else ("neutral_coverage" if hits else "no_coverage"),
         "article_count": len(hits),

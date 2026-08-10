@@ -215,7 +215,31 @@ def score_alert(alert_id: str, lookback_days: int | None = None) -> dict:
     total = max(0, min(100, round(raw_total)))
     band, band_name, recommendation, guidance = _band(total)
 
+    ranked = sorted(factors, key=lambda f: f["points"], reverse=True)
+    ledger = "\n".join(
+        f"  {f['points']:>+7.1f}  {f['category']:<9} {f['factor']}\n"
+        f"           {f['basis']}"
+        for f in ranked
+    )
+    caps_note = (
+        "\n".join(
+            f"  {cat} capped: {v['uncapped']} → {v['capped_to']}"
+            for cat, v in capped.items()
+        )
+        if capped else ""
+    )
+
     return {
+        "summary": (
+            f"RISK SCORE {total}/100 — {band_name.upper()} — "
+            f"scorecard recommends: {recommendation}\n"
+            f"{guidance}\n\n"
+            f"Scoring ledger (weights fixed in code; recomputable by hand):\n{ledger}\n"
+            + (f"\nCategory ceilings applied:\n{caps_note}\n" if caps_note else "")
+            + f"\nTotal after ceilings: {round(raw_total, 1)} → clamped to {total}/100.\n"
+            f"The recommendation is ADVISORY. Departing from it is allowed, but "
+            f"record_disposition will refuse the write until you supply a written reason."
+        ),
         "alert_id": alert_id,
         "customer_id": customer_id,
         "lookback_days": window,

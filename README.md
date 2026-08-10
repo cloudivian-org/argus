@@ -102,6 +102,42 @@ not an architecture.
 
 ---
 
+## Readable output is a feature, not polish
+
+The transcript *is* the deliverable. A compliance officer reads it; an auditor
+reads it two years later. So two things are enforced rather than hoped for.
+
+**Every tool leads with a plain-English `summary`.** Not as decoration — as the
+anti-hallucination mechanism. The scorecard returns its whole working:
+
+```
+RISK SCORE 86/100 — CRITICAL — scorecard recommends: recommend_sar
+
+Scoring ledger (weights fixed in code; recomputable by hand):
+    +35.0  screening  sanctions_or_pep_match:HELIOSPAY DIGITAL ASSETS LTD
+           Counterparty "HELIOSPAY DIGITAL ASSETS LTD" matches OFAC SDN entry
+           at 1.00 (programs: SIM-CYBER)
+    +22.0  typology   behaviour_break
+           Monthly outflow rose to 35.1x the historical baseline …
+```
+
+The agent quotes those lines instead of re-deriving figures, which is exactly
+where invented numbers come from. Screening summaries carry the sanctions-clock
+warning; media summaries carry the untrusted-content caveat; the typology
+summary states what was **ruled out**, not just what fired.
+
+**Agents narrate for the reader, not for themselves.** Without explicit
+instruction the intermediate steps degrade into telegraphic notes — `QC
+dispatched. Waiting.`, `Drain inbox.` — which are useless to anyone watching.
+The supervisor prompt requires complete sentences, a bold heading per step,
+figures inline, findings rather than tool names, and no internal shorthand.
+
+The `ReadableOutput` test class asserts all of this: every read tool returns a
+substantive `summary`, the scorecard itemises every factor, and each agent
+carries its narration rules.
+
+---
+
 ## Architecture
 
 ```
@@ -186,7 +222,7 @@ hand.
 ├── casefiles/                  # case files + audit_ledger.jsonl (written at runtime)
 ├── scripts/generate_data.py    # regenerates the sandbox deterministically
 ├── scripts/start_gui.sh        # brings the demo up in the browser UI from cold
-└── tests/test_argus.py         # 54 regression tests
+└── tests/test_argus.py         # 61 regression tests
 ```
 
 ---
@@ -384,14 +420,14 @@ screening, and the bank's own case management for disposition write-back.
 
 ## How it was tested
 
-### Deterministic regression suite — 54 tests
+### Deterministic regression suite — 61 tests
 
 ```bash
 python3 -m unittest discover -s tests -t . -v
 ```
 
 ```
-Ran 54 tests in 1.069s
+Ran 61 tests in 0.713s
 
 OK
 ```
@@ -419,6 +455,7 @@ is merely asserted:
 | `DispositionControls` | Thin rationale, uncited evidence, fabricated transaction ids, and unexplained scorecard departures are all rejected |
 | `SarDraftControls` | Short narrative, missing element, hedging language, fabricated ids, and non-reconciling totals are all rejected; an accepted draft is never marked filed |
 | `TippingOffControl` | Customer contact fails closed at the tool layer as well as at the policy layer |
+| `ReadableOutput` | Every tool returns a plain-English summary; agents carry narration rules |
 | `BundleWiring` | The Omnigent spec loads with all six policies, both labels, four sub-agents, and three skills attached — and asserts that the drafter has no tools, that no sub-agent holds a write tool, that only the screening analyst can read media, and that the supervisor declares no shell access |
 
 That last class is the one that matters most for a proposal. It tests the
