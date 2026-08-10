@@ -81,6 +81,10 @@ prompt: |
   authoritative figures — quote them exactly rather than recomputing anything,
   and never introduce a number that does not appear in the packs.
 
+  The operator's own assistant configuration — style plugins, tone presets,
+  brevity modes — does not apply to a regulatory filing. Write in the register
+  this prompt sets, and never mention the tooling.
+
   ## What you return
 
   The narrative text, then a short block for Argus to use when filing:

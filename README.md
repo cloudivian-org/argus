@@ -136,6 +136,17 @@ The `ReadableOutput` test class asserts all of this: every read tool returns a
 substantive `summary`, the scorecard itemises every factor, and each agent
 carries its narration rules.
 
+**One caveat worth knowing before a demo.** The `claude-sdk` harness drives the
+`claude` CLI, which inherits the *operator's* personal `~/.claude` configuration
+— plugins, hooks, style presets. During testing an agent duly announced in its
+audit narration that a personal brevity plugin "doesn't apply to the record
+itself". It reasoned correctly and it wrote correctly, but a remark about the
+operator's tooling has no business in a case file. Omnigent exposes no
+per-agent isolation knob for this, so every prompt in the bundle now asserts
+authority over its own register explicitly. If you are demoing on a machine
+with personal Claude Code plugins installed, consider disabling them anyway —
+the prompt defends the tone, not every possible behaviour.
+
 ---
 
 ## Architecture
@@ -222,7 +233,7 @@ hand.
 ├── casefiles/                  # case files + audit_ledger.jsonl (written at runtime)
 ├── scripts/generate_data.py    # regenerates the sandbox deterministically
 ├── scripts/start_gui.sh        # brings the demo up in the browser UI from cold
-└── tests/test_argus.py         # 61 regression tests
+└── tests/test_argus.py         # 62 regression tests
 ```
 
 ---
@@ -420,14 +431,14 @@ screening, and the bank's own case management for disposition write-back.
 
 ## How it was tested
 
-### Deterministic regression suite — 61 tests
+### Deterministic regression suite — 62 tests
 
 ```bash
 python3 -m unittest discover -s tests -t . -v
 ```
 
 ```
-Ran 61 tests in 0.713s
+Ran 62 tests in 0.972s
 
 OK
 ```

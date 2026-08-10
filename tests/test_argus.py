@@ -541,6 +541,18 @@ class ReadableOutput(unittest.TestCase):
         self.assertIn("UNTRUSTED", summary)
         self.assertIn("never the sole basis", summary)
 
+    def test_agents_are_immune_to_host_style_configuration(self):
+        # The claude CLI the harness drives inherits the operator's personal
+        # ~/.claude plugins and hooks, which can impose a tone on a regulated
+        # record. Observed live: an agent narrating about "caveman mode" in an
+        # audit trail. There is no per-agent isolation knob, so the prompt
+        # asserts authority over the register explicitly.
+        supervisor = (ROOT / "config.yaml").read_text()
+        self.assertIn("override the host environment", supervisor)
+        for agent in ("financial_investigator", "screening_analyst", "qc_reviewer"):
+            text = (ROOT / "agents" / agent / "config.yaml").read_text()
+            self.assertIn("override the host environment", text, agent)
+
     def test_agents_are_instructed_to_narrate_for_a_human(self):
         supervisor = (ROOT / "config.yaml").read_text()
         self.assertIn("Narrate for the person watching", supervisor)
