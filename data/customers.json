@@ -1,0 +1,170 @@
+[
+  {
+    "customer_id": "CUS-1002",
+    "legal_name": "Priya Raman",
+    "customer_type": "individual",
+    "date_of_birth": "1989-03-14",
+    "nationality": "US",
+    "residence_country": "US",
+    "occupation": "Senior Software Engineer",
+    "employer": "Northgate Systems Inc.",
+    "segment": "retail",
+    "kyc_risk_rating": "low",
+    "pep_status": false,
+    "onboarded": "2016-06-02",
+    "last_kyc_review": "2025-06-10",
+    "source_of_funds": "Salary and equity compensation",
+    "expected_monthly_credit_usd": 18000,
+    "expected_monthly_debit_usd": 14000,
+    "declared_purpose": "Primary banking, mortgage servicing",
+    "products": [
+      "checking",
+      "savings",
+      "mortgage"
+    ]
+  },
+  {
+    "customer_id": "CUS-1007",
+    "legal_name": "Marcus Delgado",
+    "customer_type": "individual",
+    "date_of_birth": "1978-11-02",
+    "nationality": "US",
+    "residence_country": "US",
+    "occupation": "Owner, Delgado Corner Market",
+    "employer": "Self-employed",
+    "segment": "retail",
+    "kyc_risk_rating": "medium",
+    "pep_status": false,
+    "onboarded": "2011-02-17",
+    "last_kyc_review": "2024-09-01",
+    "source_of_funds": "Retail convenience store receipts",
+    "expected_monthly_credit_usd": 25000,
+    "expected_monthly_debit_usd": 22000,
+    "declared_purpose": "Small business operating account",
+    "products": [
+      "business_checking"
+    ],
+    "cash_intensive_business": true
+  },
+  {
+    "customer_id": "CUS-1019",
+    "legal_name": "Meridian Polymer Trading LLC",
+    "customer_type": "entity",
+    "incorporation_country": "US",
+    "incorporation_date": "2021-08-30",
+    "industry": "Wholesale \u2014 industrial chemicals and polymers",
+    "segment": "sme",
+    "kyc_risk_rating": "high",
+    "pep_status": false,
+    "onboarded": "2021-09-15",
+    "last_kyc_review": "2025-11-04",
+    "source_of_funds": "Trade receivables from polymer resale",
+    "expected_monthly_credit_usd": 900000,
+    "expected_monthly_debit_usd": 850000,
+    "declared_purpose": "Import/export settlement, supplier payments",
+    "products": [
+      "business_checking",
+      "trade_finance",
+      "fx"
+    ],
+    "beneficial_owners": [
+      {
+        "name": "Sanjay Prakash Mehta",
+        "ownership_pct": 60,
+        "country": "AE"
+      },
+      {
+        "name": "Laila Farouk Hassan",
+        "ownership_pct": 40,
+        "country": "AE"
+      }
+    ],
+    "declared_trade_corridors": [
+      "US",
+      "DE",
+      "SG"
+    ]
+  },
+  {
+    "customer_id": "CUS-1023",
+    "legal_name": "Novaterra Holdings Ltd",
+    "customer_type": "entity",
+    "incorporation_country": "CY",
+    "incorporation_date": "2023-04-11",
+    "industry": "Investment holding company",
+    "segment": "corporate",
+    "kyc_risk_rating": "high",
+    "pep_status": true,
+    "onboarded": "2023-05-20",
+    "last_kyc_review": "2025-05-22",
+    "source_of_funds": "Shareholder capital contribution; consultancy income",
+    "expected_monthly_credit_usd": 400000,
+    "expected_monthly_debit_usd": 380000,
+    "declared_purpose": "Group treasury and intercompany settlement",
+    "products": [
+      "business_checking",
+      "fx"
+    ],
+    "beneficial_owners": [
+      {
+        "name": "Dmitri Anatolyevich Kozlov",
+        "ownership_pct": 75,
+        "country": "KZ",
+        "pep": true,
+        "pep_role": "Deputy Minister of Regional Infrastructure (2019-2024)"
+      },
+      {
+        "name": "Elena Kozlova",
+        "ownership_pct": 25,
+        "country": "CY"
+      }
+    ]
+  },
+  {
+    "customer_id": "CUS-1031",
+    "legal_name": "Aiden Okafor",
+    "customer_type": "individual",
+    "date_of_birth": "2004-01-19",
+    "nationality": "US",
+    "residence_country": "US",
+    "occupation": "Full-time student",
+    "employer": "None",
+    "segment": "retail",
+    "kyc_risk_rating": "low",
+    "pep_status": false,
+    "onboarded": "2026-03-28",
+    "last_kyc_review": "2026-03-28",
+    "source_of_funds": "Part-time campus work, family support",
+    "expected_monthly_credit_usd": 1200,
+    "expected_monthly_debit_usd": 1100,
+    "declared_purpose": "Everyday student banking",
+    "products": [
+      "checking"
+    ]
+  },
+  {
+    "customer_id": "CUS-1044",
+    "legal_name": "Eleanor Whitfield",
+    "customer_type": "individual",
+    "date_of_birth": "1948-05-30",
+    "nationality": "US",
+    "residence_country": "US",
+    "occupation": "Retired schoolteacher",
+    "employer": "Retired",
+    "segment": "retail",
+    "kyc_risk_rating": "low",
+    "pep_status": false,
+    "onboarded": "2004-02-09",
+    "last_kyc_review": "2025-02-11",
+    "source_of_funds": "Pension, social security, retirement savings",
+    "expected_monthly_credit_usd": 4200,
+    "expected_monthly_debit_usd": 3800,
+    "declared_purpose": "Retirement banking and savings",
+    "products": [
+      "checking",
+      "savings",
+      "certificate_of_deposit"
+    ],
+    "vulnerable_customer_flag": true
+  }
+]

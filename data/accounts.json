@@ -1,0 +1,66 @@
+[
+  {
+    "account_id": "ACC-2002-01",
+    "customer_id": "CUS-1002",
+    "product": "checking",
+    "opened": "2016-06-02",
+    "status": "active",
+    "balance_usd": 21430.55
+  },
+  {
+    "account_id": "ACC-2002-02",
+    "customer_id": "CUS-1002",
+    "product": "savings",
+    "opened": "2016-06-02",
+    "status": "active",
+    "balance_usd": 96500.0
+  },
+  {
+    "account_id": "ACC-2007-01",
+    "customer_id": "CUS-1007",
+    "product": "business_checking",
+    "opened": "2011-02-17",
+    "status": "active",
+    "balance_usd": 64211.09
+  },
+  {
+    "account_id": "ACC-2019-01",
+    "customer_id": "CUS-1019",
+    "product": "business_checking",
+    "opened": "2021-09-15",
+    "status": "active",
+    "balance_usd": 412885.31
+  },
+  {
+    "account_id": "ACC-2023-01",
+    "customer_id": "CUS-1023",
+    "product": "business_checking",
+    "opened": "2023-05-20",
+    "status": "active",
+    "balance_usd": 1288430.77
+  },
+  {
+    "account_id": "ACC-2031-01",
+    "customer_id": "CUS-1031",
+    "product": "checking",
+    "opened": "2026-03-28",
+    "status": "active",
+    "balance_usd": 812.4
+  },
+  {
+    "account_id": "ACC-2044-01",
+    "customer_id": "CUS-1044",
+    "product": "checking",
+    "opened": "2004-02-09",
+    "status": "active",
+    "balance_usd": 3120.88
+  },
+  {
+    "account_id": "ACC-2044-02",
+    "customer_id": "CUS-1044",
+    "product": "certificate_of_deposit",
+    "opened": "2019-07-01",
+    "status": "closed_early",
+    "balance_usd": 0.0
+  }
+]

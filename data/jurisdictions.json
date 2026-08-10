@@ -1,0 +1,48 @@
+{
+  "US": {
+    "name": "United States",
+    "risk": "low"
+  },
+  "GB": {
+    "name": "United Kingdom",
+    "risk": "low"
+  },
+  "DE": {
+    "name": "Germany",
+    "risk": "low"
+  },
+  "SG": {
+    "name": "Singapore",
+    "risk": "low"
+  },
+  "LU": {
+    "name": "Luxembourg",
+    "risk": "medium",
+    "note": "Corporate secrecy / holding-company concentration"
+  },
+  "CY": {
+    "name": "Cyprus",
+    "risk": "medium",
+    "note": "Shell-company incorporation risk"
+  },
+  "AE": {
+    "name": "United Arab Emirates",
+    "risk": "high",
+    "note": "Free-zone trade re-invoicing risk"
+  },
+  "KZ": {
+    "name": "Kazakhstan",
+    "risk": "high",
+    "note": "Procurement / dual-use diversion risk"
+  },
+  "GH": {
+    "name": "Ghana",
+    "risk": "high",
+    "note": "Elevated advance-fee and romance-fraud corridor"
+  },
+  "SC": {
+    "name": "Seychelles",
+    "risk": "high",
+    "note": "Offshore VASP registration, limited transparency"
+  }
+}

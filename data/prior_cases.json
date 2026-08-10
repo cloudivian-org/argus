@@ -1,0 +1,43 @@
+[
+  {
+    "case_id": "CASE-2024-0771",
+    "customer_id": "CUS-1007",
+    "opened": "2024-08-14",
+    "closed": "2024-09-02",
+    "alert_ids": [
+      "ALT-2024-0669"
+    ],
+    "detection_rule": "STRUCT-01",
+    "disposition": "closed_no_sar",
+    "rationale": "Cash deposits consistent with documented convenience-store receipts; deposit sizes were irregular and not clustered below the threshold.",
+    "sar_filed": false
+  },
+  {
+    "case_id": "CASE-2025-1902",
+    "customer_id": "CUS-1019",
+    "opened": "2025-10-03",
+    "closed": "2025-10-30",
+    "alert_ids": [
+      "ALT-2025-1533"
+    ],
+    "detection_rule": "HRJ-02",
+    "disposition": "closed_with_edd",
+    "rationale": "Wires to a non-declared corridor were explained as a one-off supplier substitution. Enhanced due diligence applied; customer undertook to update declared corridors.",
+    "sar_filed": false,
+    "follow_up": "Customer never updated declared trade corridors."
+  },
+  {
+    "case_id": "CASE-2026-0210",
+    "customer_id": "CUS-1023",
+    "opened": "2026-01-19",
+    "closed": "2026-02-06",
+    "alert_ids": [
+      "ALT-2026-0044"
+    ],
+    "detection_rule": "LAYER-07",
+    "disposition": "escalated_l2",
+    "rationale": "Layering pattern noted; L2 requested source-of-wealth evidence for the PEP beneficial owner. Evidence provided was a single unaudited letter.",
+    "sar_filed": false,
+    "follow_up": "Source-of-wealth documentation remains outstanding."
+  }
+]

@@ -1,0 +1,77 @@
+[
+  {
+    "article_id": "AM-0001",
+    "published": "2026-02-11",
+    "source": "Gulf Trade Wire (simulated outlet)",
+    "headline": "Free-zone chemical trader accused of re-invoicing scheme",
+    "subject_names": [
+      "Zarin Petrochemical FZE",
+      "Zarin Petrochemical FZCO"
+    ],
+    "summary": "Regional customs authorities allege a Jebel Ali free-zone chemicals trader systematically over-invoiced polymer shipments to move value out of the region. The company denies wrongdoing.",
+    "risk_tags": [
+      "trade-based money laundering",
+      "customs fraud"
+    ],
+    "reliability": "medium"
+  },
+  {
+    "article_id": "AM-0002",
+    "published": "2025-09-30",
+    "source": "Central Asia Monitor (simulated outlet)",
+    "headline": "Former deputy minister's family linked to Cyprus holding structure",
+    "subject_names": [
+      "Dmitri Anatolyevich Kozlov",
+      "Novaterra Holdings Ltd"
+    ],
+    "summary": "An investigative outlet reports that infrastructure contracts awarded during the tenure of a former deputy minister were followed by consultancy payments routed through a Cyprus holding company connected to his family.",
+    "risk_tags": [
+      "corruption",
+      "PEP",
+      "shell structure"
+    ],
+    "reliability": "high"
+  },
+  {
+    "article_id": "AM-0003",
+    "published": "2026-04-22",
+    "source": "Consumer Protection Bulletin (simulated outlet)",
+    "headline": "Regulator warns on Ghana-corridor romance fraud targeting retirees",
+    "subject_names": [
+      "Goldcoast Ventures Ltd"
+    ],
+    "summary": "A consumer regulator warned that victims of romance fraud are being directed to wire funds to a small set of Accra-based corporate beneficiaries, one of which appears repeatedly in victim complaints.",
+    "risk_tags": [
+      "romance fraud",
+      "elder exploitation"
+    ],
+    "reliability": "high"
+  },
+  {
+    "article_id": "AM-0004",
+    "published": "2025-08-05",
+    "source": "Chain Analytics Daily (simulated outlet)",
+    "headline": "Offshore exchange named as top cash-out venue for mule networks",
+    "subject_names": [
+      "HeliosPay Digital Assets Ltd"
+    ],
+    "summary": "Blockchain analytics researchers named a Seychelles-registered exchange as the largest single off-ramp for funds traced from domestic money-mule networks.",
+    "risk_tags": [
+      "money mule",
+      "virtual assets"
+    ],
+    "reliability": "high"
+  },
+  {
+    "article_id": "AM-0005",
+    "published": "2024-05-16",
+    "source": "Regional Business Journal (simulated outlet)",
+    "headline": "Corner Market owner honoured by chamber of commerce",
+    "subject_names": [
+      "Marcus Delgado"
+    ],
+    "summary": "A local convenience store owner received a small-business service award from the regional chamber of commerce.",
+    "risk_tags": [],
+    "reliability": "medium"
+  }
+]

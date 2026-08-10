@@ -1,0 +1,95 @@
+[
+  {
+    "list_id": "SDN-SIM-4471",
+    "list_name": "OFAC SDN (simulated)",
+    "entity_name": "ZARIN PETROCHEMICAL FZCO",
+    "aliases": [
+      "ZARIN PETROCHEM FZCO",
+      "ZARIN PETROCHEMICAL FREE ZONE CO"
+    ],
+    "entity_type": "entity",
+    "country": "AE",
+    "programs": [
+      "SIM-NPWMD"
+    ],
+    "listed_date": "2024-11-19",
+    "remarks": "Designated for acting on behalf of a sanctioned petrochemical network (simulated record)."
+  },
+  {
+    "list_id": "SDN-SIM-2210",
+    "list_name": "OFAC SDN (simulated)",
+    "entity_name": "HELIOSPAY DIGITAL ASSETS LTD",
+    "aliases": [
+      "HELIOSPAY",
+      "HELIOS PAY DIGITAL"
+    ],
+    "entity_type": "entity",
+    "country": "SC",
+    "programs": [
+      "SIM-CYBER"
+    ],
+    "listed_date": "2025-07-02",
+    "remarks": "Virtual asset service provider identified as a laundering conduit for fraud proceeds (simulated record)."
+  },
+  {
+    "list_id": "UN-SIM-0912",
+    "list_name": "UN Consolidated (simulated)",
+    "entity_name": "ASTANA KAZ TRADE LLP",
+    "aliases": [
+      "ASTANA KAZTRADE"
+    ],
+    "entity_type": "entity",
+    "country": "KZ",
+    "programs": [
+      "SIM-PROLIF"
+    ],
+    "listed_date": "2025-02-14",
+    "remarks": "Front company for restricted dual-use goods procurement (simulated record)."
+  },
+  {
+    "list_id": "PEP-SIM-3390",
+    "list_name": "Global PEP register (simulated)",
+    "entity_name": "DMITRI ANATOLYEVICH KOZLOV",
+    "aliases": [
+      "D. A. KOZLOV",
+      "DMITRIY KOZLOV"
+    ],
+    "entity_type": "individual",
+    "country": "KZ",
+    "programs": [
+      "PEP-DOMESTIC"
+    ],
+    "listed_date": "2019-03-01",
+    "remarks": "Deputy Minister of Regional Infrastructure 2019-2024; family members also listed (simulated record)."
+  },
+  {
+    "list_id": "PEP-SIM-3391",
+    "list_name": "Global PEP register (simulated)",
+    "entity_name": "ELENA KOZLOVA",
+    "aliases": [
+      "E. KOZLOVA"
+    ],
+    "entity_type": "individual",
+    "country": "CY",
+    "programs": [
+      "PEP-RCA"
+    ],
+    "listed_date": "2019-03-01",
+    "remarks": "Relative/close associate of a listed PEP (simulated record)."
+  },
+  {
+    "list_id": "INT-SIM-0055",
+    "list_name": "Internal high-risk register (simulated)",
+    "entity_name": "GOLDCOAST VENTURES LTD",
+    "aliases": [
+      "GOLD COAST VENTURES"
+    ],
+    "entity_type": "entity",
+    "country": "GH",
+    "programs": [
+      "INTERNAL-FRAUD"
+    ],
+    "listed_date": "2026-01-08",
+    "remarks": "Named as a beneficiary account in three prior romance-fraud reports (simulated record)."
+  }
+]

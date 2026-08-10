@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.venv/
+venv/
+
+# Case files and the audit ledger are written at runtime. The directory is
+# tracked; its contents are not — a demo run should not commit its output.
+casefiles/*
+!casefiles/.gitkeep
