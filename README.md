@@ -185,6 +185,7 @@ hand.
 ├── data/                       # synthetic bank sandbox (generated)
 ├── casefiles/                  # case files + audit_ledger.jsonl (written at runtime)
 ├── scripts/generate_data.py    # regenerates the sandbox deterministically
+├── scripts/start_gui.sh        # brings the demo up in the browser UI from cold
 └── tests/test_argus.py         # 54 regression tests
 ```
 
@@ -249,6 +250,48 @@ For the browser or a phone:
 ```bash
 omnigent start          # then open the printed URL, New Chat, pick this agent
 ```
+
+### Running the demo in the GUI
+
+The browser UI is the right surface for a customer demo — the Subagents panel
+makes the parallel fan-out visible, and the maker-checker approval arrives as a
+card you click rather than a terminal prompt.
+
+```bash
+./scripts/start_gui.sh              # server + the false-positive alert
+./scripts/start_gui.sh 0114 0117    # seed several
+open http://localhost:6767
+```
+
+Two things will waste your afternoon if you hit them cold:
+
+**Start the server from outside the Omnigent source checkout.** Run
+`omnigent server` with its working directory inside a clone of the omnigent
+repo and it serves *that* repo's `web/` directory — which is unbuilt unless
+you have `pnpm` and ran `npm run build`. The browser then shows
+"Omnigent is running — but the web UI isn't installed", even though a
+complete 25MB prebuilt UI is sitting in your installed package. Start it from
+`$HOME` and it serves the bundled UI. `start_gui.sh` does this and fails loudly
+if it detects the API-only page.
+
+**Don't let the macOS desktop app spawn its own server.** The app ships a newer
+Omnigent build that migrates `~/.omnigent/chat.db` to a schema the released CLI
+cannot read; the CLI server then dies on startup with
+`alembic ... Can't locate revision identified by '<rev>'`. Point the app at the
+already-running `http://127.0.0.1:6767` via its **Server** menu instead. If the
+DB is already stamped, move it aside — `start_gui.sh` handles this too.
+
+Also note: only `polly` and `debby` are seeded into the **New Chat** agent
+picker (they are hardcoded in `omnigent/server/app.py`), so Argus will not
+appear there. It does not need to. Start a triage from the CLI and the session
+shows up in the sidebar bound to Argus — from then on, type the next alert
+straight into that session's composer:
+
+> Triage ALT-2026-0116
+
+`tmux` is only needed for the embedded Terminal panel. Nothing in this demo
+uses it, so a missing `tmux` is safe to ignore — though it does leave the CLI's
+own TUI blank, which is another reason to demo in the browser.
 
 ### 5. Verify the audit trail
 
