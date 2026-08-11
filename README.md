@@ -514,12 +514,22 @@ From `omnigent usage`, on Claude Opus with all four sub-agents:
 | `ALT-2026-0117` | $3.20 | elder exploitation, full pipeline |
 | `ALT-2026-0115` | $3.73 | trade-based + sanctions |
 | `ALT-2026-0114` | $5.89 | earlier run, more back-and-forth |
-| `ALT-2026-0113` | $13.03 | churned re-dispatching a stalled sub-agent |
+| `ALT-2026-0113` | $8.67 | full pipeline **after** the readability changes |
+| `ALT-2026-0113` + `0116` | $13.03 | two alerts interleaved in one session |
 
-Quote the range, not the average. The $13 run is the honest one to show a
-customer: it is why `cost_budget` exists, and the gate stopped it at $12.04
-before it reached the recording step. Routing routine alerts to a cheaper
-model is the obvious production lever.
+**Readable output is not free.** The first four runs predate the narration
+rules and the tool `summary` fields. The $8.67 run is the same pipeline
+afterwards — roughly double. Audit-grade prose costs tokens, in the
+supervisor's commentary and again in every sub-agent pack.
+
+That is a trade worth making here and worth stating plainly to a customer:
+the transcript *is* the deliverable, and a cheap transcript nobody can read
+has no value. The production lever is model routing — route routine alerts to
+a smaller model and keep the frontier path for complex cases — not cutting the
+narration back.
+
+The $13.03 row is two alerts in one session, not one expensive alert; the
+supervisor now refuses to interleave cases.
 
 ### What the live runs changed
 

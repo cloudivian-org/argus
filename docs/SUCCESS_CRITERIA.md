@@ -80,8 +80,12 @@ plugin "doesn't apply to the record itself". Correct reasoning, wrong place.
   dispositioned history. Calibration is phase 1 of any real engagement.
 - The LLM layer needs its own model-risk validation. The deterministic layer
   is built to make that tractable; it does not remove the requirement.
-- Cost runs **$2.55–$6 per alert** on a frontier model with four sub-agents.
-  Routine alerts should route to a cheaper model in production.
+- Cost runs **$2.55–$8.67 per alert** on a frontier model with four
+  sub-agents; the upper end is after the readability work, which roughly
+  doubled token use. Route routine alerts to a cheaper model in production.
+- A **headless** run (`-p` with no terminal) stops at the maker-checker
+  approval and never records — the ASK needs a human. That is the control
+  failing closed, not a bug. Run in the GUI to complete a triage.
 - Synthetic data is tractable by construction. Real queues are messier.
 - `tmux` is absent on this machine, so the embedded Terminal panel will not
   open. Nothing in the demo needs it.

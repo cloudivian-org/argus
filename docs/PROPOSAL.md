@@ -72,13 +72,14 @@ and let *them* pick the percentages:
   saving on `T` is a *fraction*, not elimination — say 40–60%, and let them
   argue it down.
 - **Compute cost.** Metered and capped by policy. Measured on Claude Opus
-  with four sub-agents, per alert: **$2.55, $3.20, $3.73, $5.89** on clean
-  runs and **$13.03** on one that churned re-dispatching a stalled sub-agent.
-  Quote the range, not the average — the tail run is real, and the spend cap
-  exists because of it. A production deployment routes routine alerts to a
-  cheaper model and reserves the frontier path for complex cases, which is
-  where the per-alert figure comes down. Subtract this line explicitly; a
-  business case that hides its own cost does not survive procurement.
+  with four sub-agents: **$2.55–$5.89 per alert** before the readability work,
+  and **$8.67** for the same pipeline afterwards. Audit-grade narration
+  roughly doubles the token cost, and it is worth it — the transcript is the
+  deliverable, and a cheap transcript nobody can read has no value. Quote the
+  range and the reason. The production lever is model routing: send routine
+  alerts to a smaller model, keep the frontier path for complex cases.
+  Subtract this line explicitly; a business case that hides its own cost does
+  not survive procurement.
 
 **Say out loud what you are not claiming.** You are not claiming headcount
 reduction. In practice the first-year benefit lands as backlog elimination
