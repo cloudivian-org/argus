@@ -38,11 +38,15 @@ fi
 echo
 
 echo "▸ Checking a model credential is configured…"
-if ! omnigent config list 2>/dev/null | grep -q "default"; then
-  echo "  No default credential found. Run: omnigent setup"
-  exit 1
-fi
-omnigent config list 2>/dev/null | sed -n '/Credentials/,$p'
+# Capture first, match second. Piping into `grep -q` under `pipefail` is a
+# trap: grep exits on the first match, the upstream command takes SIGPIPE,
+# and pipefail turns a successful match into a failed pipeline.
+CREDS="$(omnigent config list 2>/dev/null || true)"
+case "$CREDS" in
+  *default*) ;;
+  *) echo "  No default credential found. Run: omnigent setup"; exit 1 ;;
+esac
+printf '%s\n' "$CREDS" | sed -n '/Credentials/,$p'
 echo
 
 echo "▸ Regenerating the synthetic bank sandbox…"

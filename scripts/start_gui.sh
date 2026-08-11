@@ -41,11 +41,14 @@ fi
 
 curl -sf -o /dev/null "$URL/" || { echo "Server still down. Check ~/.omnigent/logs/server/"; exit 1; }
 
-if curl -s "$URL/" | grep -qi "web UI not installed"; then
+ROOT_HTML="$(curl -s "$URL/" || true)"
+case "$ROOT_HTML" in
+  *"web UI not installed"*)
   echo "  WARNING: server is serving the API-only page."
   echo "  It was started from inside an omnigent source checkout. Stop it and rerun this script."
   exit 1
-fi
+  ;;
+esac
 echo "  Server up at $URL, serving the real web UI."
 
 echo "▸ Seeding triage sessions: ${ALERTS[*]}"
