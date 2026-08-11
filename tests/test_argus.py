@@ -33,6 +33,25 @@ sys.path.insert(0, str(ROOT))
 from bankcore import casefile, scoring, screening, store, typologies  # noqa: E402
 
 
+try:  # The @tool decorator lives in the Omnigent client package.
+    import omnigent_client  # noqa: F401
+
+    HAS_OMNIGENT_CLIENT = True
+except ImportError:  # pragma: no cover - depends on which interpreter runs
+    HAS_OMNIGENT_CLIENT = False
+
+# Loading a tool module executes `from omnigent_client.tools import tool`, so
+# these tests need the interpreter Omnigent was installed under. Skipping with
+# a clear reason beats 39 identical ImportError tracebacks for someone running
+# the suite on the system python.
+needs_client = unittest.skipUnless(
+    HAS_OMNIGENT_CLIENT,
+    "omnigent_client not importable — run with the interpreter Omnigent is "
+    "installed under, e.g. ~/.local/share/uv/tools/omnigent/bin/python, "
+    "or use ./scripts/demo.sh which finds it for you",
+)
+
+
 def load_tool(name: str, agent: str | None = None):
     """Import a tool module the way the Omnigent runner does — by path."""
     base = ROOT / "tools" / "python" if agent is None else ROOT / "agents" / agent / "tools" / "python"
@@ -253,6 +272,7 @@ class LedgerIntegrity(unittest.TestCase):
         self.assertEqual(entries[1]["previous_hash"], entries[0]["entry_hash"])
 
 
+@needs_client
 class DispositionControls(unittest.TestCase):
     """record_disposition must refuse a case file that would not survive review."""
 
@@ -364,6 +384,7 @@ class DispositionControls(unittest.TestCase):
         return typologies.structuring("CUS-1007", 90)["evidence_txn_ids"][:5]
 
 
+@needs_client
 class SarDraftControls(unittest.TestCase):
     """submit_sar_draft must reject the deficiencies real filings fail on."""
 
@@ -462,6 +483,7 @@ class SarDraftControls(unittest.TestCase):
         self.assertFalse(entries[-1]["payload"]["filed"])
 
 
+@needs_client
 class TippingOffControl(unittest.TestCase):
     """Customer contact must fail closed at the tool as well as at the policy."""
 
@@ -477,6 +499,7 @@ class TippingOffControl(unittest.TestCase):
         self.assertIn("5318(g)(2)", result["reason"])
 
 
+@needs_client
 class ReadableOutput(unittest.TestCase):
     """Every tool must lead with a plain-English headline.
 

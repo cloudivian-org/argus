@@ -11,7 +11,34 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-PY="${PYTHON:-python3}"
+# The tool modules import omnigent_client, which lives in the interpreter
+# Omnigent was installed under — not necessarily the system python3. Find one
+# that can actually import it, starting with the interpreter behind the
+# omnigent executable itself.
+find_python() {
+  local candidates=() shebang
+  [ -n "${PYTHON:-}" ] && candidates+=("$PYTHON")
+  if command -v omnigent >/dev/null 2>&1; then
+    shebang="$(head -1 "$(command -v omnigent)" 2>/dev/null | sed 's|^#!||' | awk '{print $1}')"
+    [ -n "$shebang" ] && candidates+=("$shebang")
+  fi
+  candidates+=("$HOME/.local/share/uv/tools/omnigent/bin/python" python3.13 python3.12 python3)
+  for c in "${candidates[@]}"; do
+    [ -n "$c" ] || continue
+    if "$c" -c 'import omnigent_client' >/dev/null 2>&1; then
+      echo "$c"; return 0
+    fi
+  done
+  return 1
+}
+
+PY="$(find_python || true)"
+if [ -z "$PY" ]; then
+  echo "No Python found that can import omnigent_client."
+  echo "Install Omnigent first:  uv tool install --python 3.12 'omnigent==0.8.2'"
+  echo "Or set PYTHON=/path/to/python if you installed it elsewhere."
+  exit 1
+fi
 
 echo "──────────────────────────────────────────────────────────────"
 echo " Argus — AML alert triage on Omnigent"
@@ -47,6 +74,9 @@ case "$CREDS" in
   *) echo "  No default credential found. Run: omnigent setup"; exit 1 ;;
 esac
 printf '%s\n' "$CREDS" | sed -n '/Credentials/,$p'
+echo
+
+echo "▸ Using Python: $PY ($("$PY" --version 2>&1))"
 echo
 
 echo "▸ Regenerating the synthetic bank sandbox…"
