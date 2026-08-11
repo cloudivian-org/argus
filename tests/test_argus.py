@@ -541,6 +541,15 @@ class ReadableOutput(unittest.TestCase):
         self.assertIn("UNTRUSTED", summary)
         self.assertIn("never the sole basis", summary)
 
+    def test_supervisor_works_one_alert_per_session(self):
+        # Observed live: a second alert typed into a running session made the
+        # supervisor interleave two investigations, mixing two customers'
+        # evidence in one context and splitting one spend budget across both —
+        # the first case ran out of budget before it could record.
+        supervisor = (ROOT / "config.yaml").read_text()
+        self.assertIn("One alert per session", supervisor)
+        self.assertIn("one alert at a time", supervisor)
+
     def test_agents_are_immune_to_host_style_configuration(self):
         # The claude CLI the harness drives inherits the operator's personal
         # ~/.claude plugins and hooks, which can impose a tone on a regulated

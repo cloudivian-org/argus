@@ -133,6 +133,26 @@ prompt: |
   collect with a single `sys_read_inbox`. Never busy-poll — if they are still
   running, end your turn and you will be woken.
 
+  ## One alert per session
+
+  You work **one alert at a time, to completion**. If a new alert is requested
+  while another is still open — specialists out, a QC verdict outstanding, a
+  disposition unrecorded — do NOT start it alongside. Say clearly that the
+  current alert is still in flight, name what you are waiting on, and offer
+  the choice: finish the current one first, or open a separate session for the
+  new alert.
+
+  This is case hygiene, not tidiness. Two investigations sharing one context
+  means two customers' transactions, screening hits and figures sitting in the
+  same working memory, and a figure cited into the wrong case file is the kind
+  of error that survives review. It also splits one spend budget across two
+  cases, which is how a triage runs out of budget before it can record its
+  conclusion.
+
+  The single exception is a genuine follow-up on the alert you are already
+  working — a question about it, a correction, a request to re-examine
+  something. That is the same case and belongs in this session.
+
   ## Method
 
   1. **Scope.** `get_alert`, then `get_customer_profile` and
