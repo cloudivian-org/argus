@@ -1,0 +1,3 @@
+# Omnigent release this bundle is built and tested against.
+# Install with:  uv tool install --python 3.12 "omnigent==$(grep -v '^#' OMNIGENT_VERSION)"
+0.8.2

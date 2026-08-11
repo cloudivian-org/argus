@@ -102,6 +102,39 @@ not an architecture.
 
 ---
 
+## What this repository is, and is not
+
+This is an **agent bundle** — a self-contained use case that runs *on*
+Omnigent. Omnigent itself is not vendored here, deliberately:
+
+- It is a separately maintained Apache-2.0 project. Copying its source in
+  would create a fork to maintain, with its own security patches and upstream
+  drift.
+- It is a dependency, installed with `uv tool install 'omnigent==0.8.2'`, the
+  same way you would depend on any framework rather than commit it.
+- Redistributing it carries Apache-2.0 obligations (preserving `NOTICE`,
+  marking modifications) that nothing here needs.
+
+**Tested against:** Omnigent `0.8.2` (built 2026-08-04), Python 3.12, Claude
+Opus via the `claude` CLI, on macOS.
+
+The bundle references Omnigent by public API only — `omnigent-client`'s `@tool`
+decorator, and policy handlers such as
+`omnigent.policies.function.make_fixed_action_callable` and
+`omnigent.inner.nessie.policies.spawn_bounds`. No Omnigent code is copied or
+modified. Nothing in this repository patches the framework.
+
+If a later Omnigent release changes the agent-spec schema or moves a policy
+handler path, this bundle will fail loudly at spec load rather than silently
+misbehave — the `BundleWiring` tests assert that every policy, label and
+sub-agent still attaches.
+
+Everything in this repository is original work, licensed Apache 2.0 to match
+the framework it targets. Credit for the framework belongs to
+[omnigent-ai/omnigent](https://github.com/omnigent-ai/omnigent).
+
+---
+
 ## Readable output is a feature, not polish
 
 The transcript *is* the deliverable. A compliance officer reads it; an auditor
@@ -246,10 +279,12 @@ hand.
 curl -fsSL https://raw.githubusercontent.com/omnigent-ai/omnigent/main/scripts/install_oss.sh | sh
 ```
 
-Or manually (needs Python 3.12+):
+Or manually (needs Python 3.12+). **Pin the version** — this bundle is built
+and tested against Omnigent 0.8.2, and the spec schema and policy handler
+paths are not yet stable across releases:
 
 ```bash
-uv tool install --python 3.12 omnigent
+uv tool install --python 3.12 'omnigent==0.8.2'
 ```
 
 ### 2. Configure a model
