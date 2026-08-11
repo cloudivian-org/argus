@@ -128,8 +128,9 @@ cat <<'EOF'
  approval before anything reaches the case record. That pause is the
  control, not a bug.
 
- Then show the audit trail:
-   cat casefiles/audit_ledger.jsonl
+ Then show the audit trail (written outside the bundle, because
+ Omnigent runs each session from a temp copy of it):
+   cat ~/.argus/casefiles/audit_ledger.jsonl
    omnigent run . -p "Verify the audit ledger"
 ──────────────────────────────────────────────────────────────
 EOF
