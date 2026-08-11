@@ -71,11 +71,14 @@ and let *them* pick the percentages:
   starts from an evidenced case file rather than a raw alert. Realistic
   saving on `T` is a *fraction*, not elimination — say 40–60%, and let them
   argue it down.
-- **Compute cost.** Metered and capped by policy. This bundle measured
-  roughly $4–8 per alert on a frontier model with four sub-agents; a
-  production deployment routes routine alerts to a smaller model and reserves
-  the expensive path for complex cases. Subtract it explicitly — a business
-  case that hides its own cost line does not survive scrutiny.
+- **Compute cost.** Metered and capped by policy. Measured on Claude Opus
+  with four sub-agents, per alert: **$2.55, $3.20, $3.73, $5.89** on clean
+  runs and **$13.03** on one that churned re-dispatching a stalled sub-agent.
+  Quote the range, not the average — the tail run is real, and the spend cap
+  exists because of it. A production deployment routes routine alerts to a
+  cheaper model and reserves the frontier path for complex cases, which is
+  where the per-alert figure comes down. Subtract this line explicitly; a
+  business case that hides its own cost does not survive procurement.
 
 **Say out loud what you are not claiming.** You are not claiming headcount
 reduction. In practice the first-year benefit lands as backlog elimination
@@ -105,7 +108,7 @@ detector thresholds, scorecard weights, screening similarity — is
 deterministic Python with fixed weights, reproducible outputs, and arithmetic
 your validators can check by hand. The LLM reads those numbers and reasons
 about them; it never produces them. That leaves a model-risk surface small
-enough to actually validate. The 53-test regression suite pins every band, so
+enough to actually validate. The 62-test regression suite pins every band, so
 a weight change cannot silently move a reporting outcome.
 
 **"What if it hallucinates a transaction?"**
@@ -123,10 +126,12 @@ get blocked with the statutory citation. That single moment does more than
 any slide.
 
 **"What about prompt injection from adverse media?"**
-Untrusted content is confined to one sub-agent that holds no write tool, and
-reading it drops that session's `integrity` label to `0`. The supervisor is
-denied the media tools outright. Contamination has nowhere to land, and the
-label makes it visible in the audit trail.
+Retrieving media drops that session's `integrity` label to `0`, and a session
+at `integrity: 0` is then DENIED every write to the case record. So untrusted
+content is only ever *useful* inside the screening sub-agent, which holds no
+write tool — the delegation is forced by an information-flow property rather
+than by banning a tool. Contamination has nowhere to land, and the label makes
+it visible in the audit trail.
 
 **"Can we prove the record was not altered?"**
 Every write appends an entry carrying the SHA-256 of the entry before it.

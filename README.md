@@ -340,6 +340,36 @@ straight into that session's composer:
 uses it, so a missing `tmux` is safe to ignore — though it does leave the CLI's
 own TUI blank, which is another reason to demo in the browser.
 
+### Editing the bundle from the GUI
+
+Yes — but not from an Argus session, and that distinction is the point.
+
+Omnigent's Files panel is backed by a per-session *environment*, which only
+exists for an agent that declares `os_env`. Argus deliberately declares none,
+so it has no shell, no filesystem, and no Files panel. Asking its session for a
+file listing returns `not_found`. That is the control working: the agent that
+decides regulatory outcomes cannot read or rewrite its own rules.
+
+To edit the bundle in the GUI, use a coding agent alongside it. `polly` ships
+with Omnigent and declares `os_env`, so its session exposes a browsable,
+editable filesystem over the same API the Files panel uses
+(`GET/PUT/PATCH/DELETE .../environments/default/filesystem/{path}`):
+
+```bash
+cd /path/to/omnigent-checkout      # polly's cwd is its working root
+omnigent polly -p "Open banking-demo/aml-triage and show me config.yaml"
+```
+
+Then in the browser you get a Files tree, an editor, and a chat you can drive
+in plain English — *"raise the structuring detector's window to 45 days"*,
+*"add a detector for dormant-account reactivation"*, *"soften the QC
+reviewer's tone"*. Two agents, two roles: **polly edits the bundle, Argus runs
+it.** Re-run Argus after an edit and it picks the change up.
+
+What still needs a terminal rather than the GUI: regenerating the sandbox
+(`scripts/generate_data.py`) and running the test suite. Both are one command,
+and polly can run them for you if you ask — it has a shell.
+
 ### 5. Verify the audit trail
 
 ```bash
@@ -474,6 +504,23 @@ That last class is the one that matters most for a proposal. It tests the
 spec Omnigent actually loads, so the architecture diagram cannot quietly drift
 away from reality.
 
+### Measured cost per alert
+
+From `omnigent usage`, on Claude Opus with all four sub-agents:
+
+| Run | Cost | Note |
+|---|---:|---|
+| `ALT-2026-0114` | $2.55 | false positive, closed cleanly |
+| `ALT-2026-0117` | $3.20 | elder exploitation, full pipeline |
+| `ALT-2026-0115` | $3.73 | trade-based + sanctions |
+| `ALT-2026-0114` | $5.89 | earlier run, more back-and-forth |
+| `ALT-2026-0113` | $13.03 | churned re-dispatching a stalled sub-agent |
+
+Quote the range, not the average. The $13 run is the honest one to show a
+customer: it is why `cost_budget` exists, and the gate stopped it at $12.04
+before it reached the recording step. Routing routine alerts to a cheaper
+model is the obvious production lever.
+
 ### What the live runs changed
 
 The deterministic suite passes without ever starting a model. Running the
@@ -505,7 +552,8 @@ building on this stack will hit.
    $5.00 with an ASK at $2.50; a real triage crossed the warning mid-run and,
    in a non-interactive session, the ASK failed closed and ended the run.
    Correct behaviour for a control, wrong number. Raised to a $20.00 cap with
-   the warning at $12.00, based on measured cost.
+   the warning at $12.00. See the measured costs below — the gate then fired
+   again, legitimately, on a run that churned.
 
 4. **The scorecard contradicted its own tooling on KYC staleness.**
    `get_customer_profile` reported a review 417 days old as stale while the

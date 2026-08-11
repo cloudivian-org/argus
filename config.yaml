@@ -356,11 +356,13 @@ guardrails:
 
     # ── Spend cap ────────────────────────────────────────────────────
     # A per-alert cost ceiling is what makes the unit economics of the
-    # business case enforceable rather than aspirational. A full triage —
-    # supervisor plus four sub-agents over a 90-day ledger — measured at
-    # roughly $4-8 per alert during testing, so the warning sits at $12
-    # and the hard stop at $20. Set these to whatever the bank's cost per
-    # analyst-hour actually justifies.
+    # business case enforceable rather than aspirational. Measured on
+    # Claude Opus with four sub-agents: $2.55, $3.20, $3.73 and $5.89 for
+    # clean runs, and $13.03 for one that churned re-dispatching a stalled
+    # sub-agent. The warning sits at $12 and the hard stop at $20 — the
+    # gate is there precisely because the tail run exists. A production
+    # deployment routes routine alerts to a cheaper model and reserves
+    # this path for complex cases.
     cost_budget:
       type: function
       function:
