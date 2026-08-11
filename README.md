@@ -229,8 +229,8 @@ hand.
 │   ├── scoring.py              #   the risk scorecard
 │   ├── casefile.py             #   hash-chained tamper-evident audit ledger
 │   └── api.py                  #   shared tool bodies
+│   (case files + audit ledger are written to ~/.argus/casefiles — see below)
 ├── data/                       # synthetic bank sandbox (generated)
-├── casefiles/                  # case files + audit_ledger.jsonl (written at runtime)
 ├── scripts/generate_data.py    # regenerates the sandbox deterministically
 ├── scripts/start_gui.sh        # brings the demo up in the browser UI from cold
 └── tests/test_argus.py         # 62 regression tests
@@ -373,8 +373,8 @@ and polly can run them for you if you ask — it has a shell.
 ### 5. Verify the audit trail
 
 ```bash
-cat casefiles/ALT-2026-0113.json          # the case file
-cat casefiles/audit_ledger.jsonl          # the hash chain
+cat ~/.argus/casefiles/ALT-2026-0113.json   # the case file
+cat ~/.argus/casefiles/audit_ledger.jsonl   # the hash chain
 omnigent run . -p "Verify the audit ledger"
 ```
 
@@ -503,6 +503,21 @@ That last class is the one that matters most for a proposal. It tests the
 *claims* — every governance property in the table above is asserted against the
 spec Omnigent actually loads, so the architecture diagram cannot quietly drift
 away from reality.
+
+### Where the audit trail lives
+
+Case files and `audit_ledger.jsonl` are written to **`~/.argus/casefiles`**,
+not into the bundle. Override with `ARGUS_CASEFILE_DIR`.
+
+This is not a preference. Omnigent copies the agent bundle into a fresh
+per-session temp directory before running it, so anything written relative to
+the package lands in that copy and dies with it. Two completed triages proved
+the point: their case files ended up under `/var/folders/.../runner-specs-…/`
+and the ledger restarted at one entry per session. A hash chain that resets
+every run proves nothing — which is the whole reason to have one.
+
+In a real deployment this path is the bank's case-management system; the seam
+is the same.
 
 ### Measured cost per alert
 

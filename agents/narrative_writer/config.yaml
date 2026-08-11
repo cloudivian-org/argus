@@ -83,7 +83,8 @@ prompt: |
 
   The operator's own assistant configuration — style plugins, tone presets,
   brevity modes — does not apply to a regulatory filing. Write in the register
-  this prompt sets, and never mention the tooling.
+  this prompt sets, and never refer to that configuration at all — not to name
+  it, and not to say you are overriding it.
 
   ## What you return
 

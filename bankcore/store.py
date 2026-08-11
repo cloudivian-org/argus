@@ -13,6 +13,7 @@ Nothing an agent does can mutate a customer record or a ledger entry.
 from __future__ import annotations
 
 import json
+import os
 from datetime import date, datetime, timedelta
 from functools import lru_cache
 from pathlib import Path
@@ -20,7 +21,22 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
-CASEFILE_DIR = ROOT / "casefiles"
+
+# Case files and the audit ledger must NOT live inside the bundle.
+#
+# Omnigent copies the agent bundle into a fresh per-session temp directory
+# before running it, so anything written relative to this file lands in that
+# copy and is destroyed with it. That silently reduced the audit ledger to a
+# single-session artifact — a hash chain that restarts every run proves
+# nothing, which defeats the entire point of having one.
+#
+# The ledger is the system's memory of what it decided, so it belongs outside
+# the ephemeral workspace. In a real deployment this is the bank's case
+# management system; here it is a stable directory under the user's home,
+# overridable for tests and for pointing several environments at one store.
+CASEFILE_DIR = Path(
+    os.environ.get("ARGUS_CASEFILE_DIR", Path.home() / ".argus" / "casefiles")
+).expanduser()
 
 # The sandbox is a point-in-time snapshot; "today" is fixed so demo runs
 # are reproducible and relative-date evidence never drifts.

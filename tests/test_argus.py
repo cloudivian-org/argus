@@ -541,6 +541,33 @@ class ReadableOutput(unittest.TestCase):
         self.assertIn("UNTRUSTED", summary)
         self.assertIn("never the sole basis", summary)
 
+    def test_casefiles_are_written_outside_the_bundle(self):
+        # Omnigent copies the bundle into a per-session temp directory, so a
+        # ledger written relative to the package is destroyed with that copy.
+        # Observed live: two completed triages produced case files under
+        # /var/folders/... and a hash chain that restarted at one entry per
+        # session, which proves nothing.
+        from bankcore import store
+        bundle = Path(__file__).resolve().parents[1]
+        self.assertFalse(
+            str(store.CASEFILE_DIR).startswith(str(bundle)),
+            "case files must not live inside the bundle — they would be ephemeral",
+        )
+
+    def test_casefile_location_is_overridable(self):
+        source = (ROOT / "bankcore" / "store.py").read_text()
+        self.assertIn("ARGUS_CASEFILE_DIR", source)
+
+    def test_agents_must_not_reference_host_style_configuration(self):
+        # Stating "I'll ignore the host style preset" is itself the leak: it
+        # puts the operator's tooling into a bank's case file. Observed live
+        # in a QC reviewer's returned pack.
+        supervisor = (ROOT / "config.yaml").read_text()
+        self.assertIn("Say nothing about it", supervisor)
+        for agent in ("financial_investigator", "screening_analyst", "qc_reviewer"):
+            text = (ROOT / "agents" / agent / "config.yaml").read_text()
+            self.assertIn("never refer to", text, agent)
+
     def test_supervisor_works_one_alert_per_session(self):
         # Observed live: a second alert typed into a running session made the
         # supervisor interleave two investigations, mixing two customers'
